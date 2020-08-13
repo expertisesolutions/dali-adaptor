@@ -55,27 +55,26 @@ static uint32_t GetCurrentMilliSeconds(void)
 
   struct timespec  tp;
   static clockid_t clockid;
+  static bool clockid_valid = false;
 
-  if(!clockid)
+  if (!clockid_valid)
   {
 #ifdef CLOCK_MONOTONIC_COARSE
     if(clock_getres(CLOCK_MONOTONIC_COARSE, &tp) == 0 &&
        (tp.tv_nsec / 1000) <= 1000 && clock_gettime(CLOCK_MONOTONIC_COARSE, &tp) == 0)
     {
       clockid = CLOCK_MONOTONIC_COARSE;
+      clockid_valid = true;
     }
     else
 #endif
       if(clock_gettime(CLOCK_MONOTONIC, &tp) == 0)
     {
       clockid = CLOCK_MONOTONIC;
-    }
-    else
-    {
-      clockid = ~0L;
+      clockid_valid = true;
     }
   }
-  if(clockid != ~0L && clock_gettime(clockid, &tp) == 0)
+  if (clockid_valid && clock_gettime(clockid, &tp) == 0)
   {
     return static_cast<uint32_t>((tp.tv_sec * 1000) + (tp.tv_nsec / 1000000L));
   }

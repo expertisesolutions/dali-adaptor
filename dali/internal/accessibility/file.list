@@ -72,3 +72,11 @@ SET( adaptor_accessibility_android_src_files
 SET( adaptor_accessibility_windows_src_files
     ${adaptor_accessibility_dir}/generic/accessibility-adaptor-impl-generic.cpp
 )
+
+# module: accessibility, backend: macos
+SET( adaptor_accessibility_macos_src_files
+    ${adaptor_accessibility_dir}/generic/accessibility-adaptor-impl-generic.cpp
+    ${adaptor_accessibility_dir}/generic/atspi-accessibility-generic.cpp
+    ${adaptor_accessibility_dir}/generic/tts-player-factory-generic.cpp
+    ${adaptor_accessibility_dir}/generic/tts-player-impl-generic.cpp
+)
