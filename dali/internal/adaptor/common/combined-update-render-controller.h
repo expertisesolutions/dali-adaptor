@@ -24,6 +24,7 @@
 #include <atomic>
 #include <stdint.h>
 #include <dali/devel-api/threading/conditional-wait.h>
+#include <dali/devel-api/threading/semaphore.h>
 #include <dali/integration-api/core.h>
 
 // INTERNAL INCLUDES
@@ -343,8 +344,8 @@ private:
   FpsTracker                        mFpsTracker;                       ///< Object that tracks the FPS
   UpdateStatusLogger                mUpdateStatusLogger;               ///< Object that logs the update-status as required.
 
-  sem_t                             mEventThreadSemaphore;             ///< Used by the event thread to ensure all threads have been initialised, and when replacing the surface.
-  sem_t                             mGraphicsInitializeSemaphore;      ///< Used by the render thread to ensure the graphics has been initialised.
+  Semaphore<>                       mEventThreadSemaphore;             ///< Used by the event thread to ensure all threads have been initialised, and when replacing the surface.
+  ConditionalWait                   mGraphicsInitializeWait;           ///< Used by the render thread to ensure the graphics has been initialised.
 
   ConditionalWait                   mUpdateRenderThreadWaitCondition;  ///< The wait condition for the update-render-thread.
 
