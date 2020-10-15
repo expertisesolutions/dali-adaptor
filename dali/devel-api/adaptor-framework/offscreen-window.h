@@ -38,7 +38,7 @@ namespace Internal
 class OffscreenWindow;
 }
 
-class DALI_IMPORT_API OffscreenWindow : public Dali::BaseHandle
+class DALI_CORE_API OffscreenWindow : public Dali::BaseHandle
 {
 public:
   using WindowSize           = Uint16Pair;
