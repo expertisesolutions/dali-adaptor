@@ -21,6 +21,7 @@
 // EXTERNAL INCLUDES
 #include <map>
 #include <windows.h>
+#include <array>
 
 // INTERNAL INCLUDES
 #include <dali/internal/window-system/windows/event-system-win.h>
@@ -279,7 +280,7 @@ void KillTimer(intptr_t id)
   delete info;
 }
 
-const char* GetKeyName( int keyCode )
+std::string GetKeyName( int keyCode )
 {
   switch( keyCode )
   {
@@ -361,6 +362,11 @@ const char* GetKeyName( int keyCode )
     }
     default:
     {
+      if (keyCode > 0 && keyCode < 128)
+      {
+        std::array retValue{static_cast<char>(keyCode), '\0'};
+        return retValue.data();
+      }
       break;
     }
   }
