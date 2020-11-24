@@ -206,16 +206,27 @@ void WindowBaseWin::OnKeyDown( int type, TWinEventInfo *event )
 
     int keyCode = event->wParam;
     std::string keyName( WindowsPlatform::GetKeyName( keyCode ) );
-    std::string keyString;
+    // for start return 0 
+    int modifier = WindowsPlatform::GetKeyModifiersOnHold( keyCode );
+    // for start return ""
+    std::string compose = WindowsPlatform::GetKeyCompose( keyCode, modifier );
+    // for start return keyCode
+    std::string keyString = WindowsPlatform::GetKeyString( keyCode, modifier, compose );
+    // for start return ""
+    std::string logicalKey = WindowsPlatform::GetLogicalKey( keyCode, modifier, compose );
     std::string emptyString;
-
-    int modifier( 0 );
     unsigned long time( 0 );
 
+    //Need to treat keykode for lower letter
     // Ensure key event string is not NULL as keys like SHIFT have a null string.
+    // move to GetKeyString
     keyString.push_back( event->wParam );
 
-    Integration::KeyEvent keyEvent( keyName, emptyString, keyString, keyCode, modifier, time, Integration::KeyEvent::DOWN, emptyString, emptyString, DEFAULT_DEVICE_CLASS, DEFAULT_DEVICE_SUBCLASS );
+    std::cout << "keyName: " << keyName << " logicalKey: " << logicalKey << "\n" <<
+      "compose: " << compose << " modifier: " << modifier << "\n" <<
+      "keyString: " << keyString << "\n\n";
+
+    Integration::KeyEvent keyEvent( keyName, logicalKey, keyString, keyCode, modifier, time, Integration::KeyEvent::DOWN, compose, emptyString, DEFAULT_DEVICE_CLASS, DEFAULT_DEVICE_SUBCLASS );
 
     mKeyEventSignal.Emit( keyEvent );
   }
